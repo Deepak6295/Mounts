@@ -1,0 +1,14 @@
+#!/bin.bash
+#Mount via xfs Keeping sdb as an example
+
+mkfs.xfs -f /dev/sdb
+mkdir -p /test
+chmod 777 /test
+mount /dev/sdb /test
+rsync -avPz /<orig_data>/ /test
+rsync -avPz /<orig_data>/.<hidden_files> /test
+umount /test
+mv /user_data /user_data_sda
+mv /test /user_data
+cat /<path_to_fstab>/fstab_sdb >> /etc/fstab
+mount -a 
